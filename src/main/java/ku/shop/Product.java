@@ -11,8 +11,15 @@ public class Product {
         this.stock = stock;
     }
 
-    public void cutStock(int quantity) {
+    public void cutStock(int quantity) throws OutOfStockException {
+        if (quantity > stock) {
+            throw new OutOfStockException(name);
+        }
         stock -= quantity;
+    }
+
+    public boolean hasEnoughStock(int quantity) {
+        return stock >= quantity;
     }
 
     public String getName() {
