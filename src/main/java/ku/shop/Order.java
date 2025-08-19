@@ -14,8 +14,8 @@ public class Order {
     }
 
     public void addItem(Product prod, int quantity) throws OutOfStockException {
-        if (!prod.hasEnoughStock(quantity)) {
-            throw new OutOfStockException(prod.getName());
+        if (prod.getStock() < quantity) {
+            throw new OutOfStockException("Not enough " + prod.getName() + " in stock.");
         }
         items.add(new OrderItem(prod, quantity));
         prod.cutStock(quantity);

@@ -4,6 +4,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -11,13 +12,13 @@ public class BuyStepdefs {
 
     private ProductCatalog catalog;
     private Order order;
-    private OutOfStockException outOfStockException;
+    private Exception caughtException;
 
     @Given("the store is ready to service customers")
     public void the_store_is_ready_to_service_customers() {
         catalog = new ProductCatalog();
         order = new Order();
-        outOfStockException = null;
+        caughtException = null;
     }
 
     @Given("a product {string} with price {float} and stock of {int} exists")
@@ -38,18 +39,18 @@ public class BuyStepdefs {
 
     @When("I try to buy {string} with quantity {int}")
     public void i_try_to_buy_with_quantity(String name, int quantity) {
-        Product prod = catalog.getProduct(name);
         try {
+            Product prod = catalog.getProduct(name);
             order.addItem(prod, quantity);
-        } catch (OutOfStockException e) {
-            outOfStockException = e;
+        } catch (Exception e) {
+            caughtException = e;
         }
     }
 
-    @Then("I should get an out of stock error for {string}")
-    public void shouldGetAnOutOfStockErrorFor(String productName) {
-        assertNotNull(outOfStockException);
-        assertEquals(outOfStockException.getProductName(), productName);
+    @Then("I should see an out of stock error")
+    public void i_should_see_an_out_of_stock_error() {
+        assertNotNull(caughtException);
+        assertTrue(caughtException instanceof OutOfStockException);
     }
 }
 

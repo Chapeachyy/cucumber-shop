@@ -18,10 +18,6 @@ public class Product {
         stock -= quantity;
     }
 
-    public boolean hasEnoughStock(int quantity) {
-        return stock >= quantity;
-    }
-
     public String getName() {
         return name;
     }

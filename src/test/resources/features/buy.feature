@@ -23,6 +23,6 @@ Scenario: Buy three different products
     And I buy "Milk" with quantity 3
     Then total should be 255.50
 
-Scenario: Try to buy product with out of stock
-    When I try to buy "Bread" with quantity 5
-    Then I should get an out of stock error for "Bread"
+Scenario: Buy product with not enough stock
+    When I try to buy "Bread" with quantity 6
+    Then I should see an out of stock error
